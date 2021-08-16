@@ -1,6 +1,6 @@
 #How to use the app
-
-```Just need to run: run.py, then you need to visit http://localhost:5000/```
+Just need to run: 
+```run.py, then you need to visit http://localhost:5000/```
 
 ```input the address in the field and press search button, the response automatically redirect to other page, you have a new link to return index page. ```
 
