@@ -4,6 +4,10 @@
 
 ```input the address in the field and press search button, the response automatically redirect to other page, you have a new link to return index page. ```
 
+# Error
+
+``` The error appears in other page, and you can return to index page and try with other address ```
+
 # 2 examples of address are:
 
 ``` - Gorbunova Street, 14  : the results of this address is in Kms because is outside thePartizanskaya Street, 20с2 MKAD.```
