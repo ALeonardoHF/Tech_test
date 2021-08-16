@@ -1,6 +1,6 @@
 #How to use the app
 
-´Just need to run: run.py, then you need to visit http://localhost:5000/´
+```Just need to run: run.py, then you need to visit http://localhost:5000/```
 
 2 examples of address are:
 
