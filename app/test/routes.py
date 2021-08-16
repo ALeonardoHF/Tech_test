@@ -1,8 +1,7 @@
-from flask import request, render_template
 import requests
 from .env_var import *
 import os
-from . import yandex
+from . import test
 from math import radians, cos, sin, asin, sqrt
 
 # formula for calculate the distance between two points with latitude and longitude
@@ -19,52 +18,41 @@ def haversine(lon1, lat1, lon2, lat2):
 
 apikey = os.environ.get('APIKEY')
 
-msg = 'The location is inside the MKAD'
-
-@yandex.route('/')
+@test.route('/test')
 def index():
-    return render_template('index.html')
 
-@yandex.route('/result', methods=['POST'])
-def yandex():
+    address_incorrect = 'Cathedral of the Intercession of the Most Holy Theotokos on the Moat'
 
-    # input field of html
-    location1= request.form['location1']
+    address_outside_mkad = 'Gorbunova Street, 14'
 
-    # url's for http request in yandex api developer
-    url = 'https://geocode-maps.yandex.ru/1.x/?format=json&apikey='+apikey+'&geocode='+location1+'&lang=en-US'
+    address_inside_mkad = 'Partizanskaya Street, 20с2'
 
+    # url = 'https://geocode-maps.yandex.ru/1.x/?format=json&apikey='+apikey+'&geocode='+address_incorrect+'&lang=en-US'
+    # url = 'https://geocode-maps.yandex.ru/1.x/?format=json&apikey='+apikey+'&geocode='+address_inside_mkad+'&lang=en-US'
+    url = 'https://geocode-maps.yandex.ru/1.x/?format=json&apikey='+apikey+'&geocode='+address_outside_mkad+'&lang=en-US'
 
     r = requests.get(url).json()
-    # Error handling
+
     if len(r['response']['GeoObjectCollection']['featureMember']) == 0:
 
-        return render_template('error.html')
+        return 'Error, check the address'
 
     else:
         # Longitude and Latitude
         # Personal address points
         Points = r['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['Point']['pos']
-
         # Personal address
         lon1, lat1 = Points.split()
-
         # Moscow  center Points
         lon_moscow_center = 37.621094
         lat_moscow_center = 55.753605
 
-
-
         outside_mkad = haversine(float(lon1), float(lat1), lon_moscow_center, lat_moscow_center)
 
-
         if outside_mkad < 15:
-            return render_template('results.html', results = msg)
+            print('The address is inside the MKAD')
+            return 'The address is inside the MKAD'
         
         else:
-            return render_template('results.html', results = outside_mkad)
-
-
-# TODO: test file separate
-# TODO: Documentation of haversine function
-# TODO:  
+            print(str(outside_mkad) + ' Kms')
+            return 'Results: ' + str(outside_mkad) + ' Kms'
