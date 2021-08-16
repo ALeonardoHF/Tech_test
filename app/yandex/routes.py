@@ -5,6 +5,7 @@ import os
 from . import yandex
 from math import radians, cos, sin, asin, sqrt
 
+# formula for calculate the distance between two points with latitude and longitude
 def haversine(lon1, lat1, lon2, lat2):
     lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
     # haversine formula 
@@ -32,28 +33,35 @@ def yandex():
 
     # url's for http request in yandex api developer
     url1 = 'https://geocode-maps.yandex.ru/1.x/?format=json&apikey='+apikey+'&geocode='+location1+'&lang=en-US'
-    moscow = 'https://geocode-maps.yandex.ru/1.x/?format=json&apikey='+apikey+'&geocode=37.6213676671642,55.7536532&lang=en-US'
+
 
     r1 = requests.get(url1).json()
-    r3 = requests.get(moscow).json()
+    # Error handling
+    if len(r1['response']['GeoObjectCollection']['featureMember']) == 0:
 
-    # Longitude and Latitude
-    # Personal address points
-    Points1 = r1['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['Point']['pos']
+        return render_template('error.html')
 
-    # Moscow  center Points
-    Points3 = r3['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['Point']['pos']
-
-    # Personal address
-    lon1, lat1 = Points1.split()
-
-    # Moscow center
-    lon3, lat3 = Points3.split()
-
-    outside_mkad = haversine(float(lon1), float(lat1), float(lon3), float(lat3))
-
-    if outside_mkad < 15:
-        return render_template('results.html', results = msg)
-    
     else:
-        return render_template('results.html', results = outside_mkad)
+        # Longitude and Latitude
+        # Personal address points
+        Points = r1['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['Point']['pos']
+
+        # Moscow  center Points
+        lon_moscow_center = 37.621094
+        lat_moscow_center = 55.753605
+
+        # Personal address
+        lon1, lat1 = Points.split()
+
+        outside_mkad = haversine(float(lon1), float(lat1), lon_moscow_center, lat_moscow_center)
+
+        if outside_mkad < 15:
+            return render_template('results.html', results = msg)
+        
+        else:
+            return render_template('results.html', results = outside_mkad)
+
+
+# TODO: test file separate
+# TODO: Documentation of haversine function
+# TODO:  
