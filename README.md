@@ -13,3 +13,5 @@
 # to use the app correctly
 
 ``` You need to get apikey for yandex developers, in the file env_vars, you need to change the APIKEY value```
+
+> # The response have error like 5 or 6 Kms in the circunference of MKAD
