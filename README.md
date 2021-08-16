@@ -6,6 +6,10 @@
 
 # 2 examples of address are:
 
-``` - Gorbunova Street, 14, the results of this address is in Kms because is outside thePartizanskaya Street, 20с2 MKAD.```
+``` - Gorbunova Street, 14  : the results of this address is in Kms because is outside thePartizanskaya Street, 20с2 MKAD.```
 
-```- Partizanskaya Street, 20с2, the results of this other address is a msg, because is inside the MKAD```
+```- Partizanskaya Street, 20с2  : the results of this other address is a msg, because is inside the MKAD```
+
+# to use the app correctly
+
+``` You need to get apikey for yandex developers, in the file env_vars, you need to change the APIKEY value```

@@ -1,6 +1,4 @@
-from flask import request
-import json
-from flask.templating import render_template
+from flask import request, render_template
 import requests
 from .env_var import *
 import os
@@ -18,13 +16,7 @@ def haversine(lon1, lat1, lon2, lat2):
     km = 6371* c
     return km
 
-client_id = os.environ.get('APPLICATION_ID')
-client_secret = os.environ.get('APPLICATION_PASSWORD')
-Url_callback = os.environ.get('URLCALLBACK')
 apikey = os.environ.get('APIKEY')
-
-# location1 = 'Partizanskaya Street, 20с2'
-# location1 = 'Gorbunova Street, 14'
 
 msg = 'The location is inside the MKAD'
 
@@ -35,8 +27,10 @@ def index():
 @yandex.route('/result', methods=['POST'])
 def yandex():
 
+    # input field of html
     location1= request.form['location1']
 
+    # url's for http request in yandex api developer
     url1 = 'https://geocode-maps.yandex.ru/1.x/?format=json&apikey='+apikey+'&geocode='+location1+'&lang=en-US'
     moscow = 'https://geocode-maps.yandex.ru/1.x/?format=json&apikey='+apikey+'&geocode=37.6213676671642,55.7536532&lang=en-US'
 
